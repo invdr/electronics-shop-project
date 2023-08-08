@@ -31,3 +31,26 @@ def test_apply_discount(item_1):
     # вызываем функцию для установления скидки изходя из pay_rate
     item_1.apply_discount()
     assert item_1.price == 8000.0
+
+
+# TestCase for homework-2
+def test_name():
+    item = Item('Телефон', 10000, 5)
+    item.name = 'Смартфон'
+    assert item.name == 'Смартфон'
+    item.name = 'СмартфонПервыйДесяток'
+    assert item.name == 'СмартфонПе'
+
+
+def test_instantiate_from_csv():
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+    assert Item.all[0].name == 'Смартфон'
+    assert Item.all[0].price == 100
+    assert Item.all[0].quantity == 1
+
+
+def test_string_number():
+    assert Item.string_to_number('123') == 123
+    assert Item.string_to_number(123.0) == 123
+    assert Item.string_to_number(123) == 123
