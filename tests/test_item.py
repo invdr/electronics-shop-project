@@ -6,13 +6,13 @@ from src.item import Item
 @pytest.fixture
 def item_1():
     """Добавляем fixture для инициализации экземпляра класса для теста"""
-    return Item("Item", 10000, 20)
+    return Item("Смартфон", 10000, 20)
 
 
 def test_item_init(item_1):
     """Когда создаем экземпляр класса item_1 с Х атрибутами, то возвращается Х
     атрибут"""
-    assert item_1.name == 'Item'
+    assert item_1.name == 'Смартфон'
     assert item_1.price == 10000
     assert item_1.quantity == 20
 
@@ -54,3 +54,10 @@ def test_string_number():
     assert Item.string_to_number('123') == 123
     assert Item.string_to_number(123.0) == 123
     assert Item.string_to_number(123) == 123
+
+
+# TestCases for homework-3
+def test___repr___(item_1):
+    assert repr(item_1) == "Item('Смартфон', 10000, 20)"
+    assert str(item_1) == "Смартфон"
+
