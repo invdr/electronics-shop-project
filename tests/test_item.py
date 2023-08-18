@@ -1,12 +1,18 @@
 import pytest
 
 from src.item import Item
+from src.phone import Phone
 
 
 @pytest.fixture
 def item_1():
     """Добавляем fixture для инициализации экземпляра класса для теста"""
     return Item("Смартфон", 10000, 20)
+
+
+@pytest.fixture
+def phone_1():
+    return Phone("iPhone 14", 120_000, 5, 2)
 
 
 def test_item_init(item_1):
@@ -28,7 +34,7 @@ def test_apply_discount(item_1):
     apply_discount(), item_1.price становится равным price * pay_rate"""
     # устанавливаем новый коэффициент
     item_1.pay_rate = 0.8
-    # вызываем функцию для установления скидки изходя из pay_rate
+    # вызываем функцию для установления скидки иcходя из pay_rate
     item_1.apply_discount()
     assert item_1.price == 8000.0
 
@@ -61,3 +67,8 @@ def test___repr___(item_1):
     assert repr(item_1) == "Item('Смартфон', 10000, 20)"
     assert str(item_1) == "Смартфон"
 
+
+# TestCases for homework-4
+def test___add__(item_1, phone_1):
+    assert item_1 + phone_1 == 25
+    assert item_1 + 10000 == "Нельзя складывать классы Phone или Item с экземплярами не Phone или Item"
