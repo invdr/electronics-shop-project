@@ -20,6 +20,8 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
+        # добавление инициализатора для класса MixinLayout
+        super().__init__()
 
         Item.all.append(self)
 
