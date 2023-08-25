@@ -1,6 +1,6 @@
 import pytest
 
-from src.item import Item
+from src.item import Item, InstantiateCSVError
 from src.phone import Phone
 
 
@@ -54,6 +54,15 @@ def test_instantiate_from_csv():
     assert Item.all[0].name == 'Смартфон'
     assert Item.all[0].price == 100
     assert Item.all[0].quantity == 1
+
+    with pytest.raises(FileNotFoundError):
+        not_file = '../src/items_err.csv'
+        Item.instantiate_from_csv(not_file)
+
+    error_file = '../src/items_error.csv'
+
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv(error_file)
 
 
 def test_string_number():
