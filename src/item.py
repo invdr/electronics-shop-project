@@ -64,20 +64,37 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, file_name=csv_file_path):
         """
         Класс-метод, инициализирующий экземпляры класса `Item` данными из файла
         по пути csv_file_path."""
         cls.all.clear()
-        with open(cls.csv_file_path, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name = row["name"]
-                price = row["price"]
-                quantity = row["quantity"]
-                cls(name, float(price), int(quantity))
+
+        try:
+            with open(file_name, newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                file_header = reader.fieldnames
+                if len(file_header) < 3:
+                    raise InstantiateCSVError('Файл содержит меньше 3 столбцов')
+                for row in reader:
+                    name = row["name"]
+                    price = row["price"]
+                    quantity = row["quantity"]
+                    cls(name, float(price), int(quantity))
+        except FileNotFoundError:
+            raise FileNotFoundError('Отсутствует файл item.csv')
 
     @staticmethod
     def string_to_number(number):
         """Статический метод, возвращающий число из числа-строки."""
         return int(float(number))
+
+
+class InstantiateCSVError(Exception):
+    """Класс для выбрасывания пользовательского исключения по кол-ву столбцов"""
+
+    def __init__(self, *args, **kwargs):
+        self.message = args[0] if args else 'Файл поврежден.'
+
+    def __str__(self):
+        return f"Ошибка: {self.message}"
